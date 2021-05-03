@@ -5,7 +5,7 @@
   "homepage": "https://ilsadmin.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng se rve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
