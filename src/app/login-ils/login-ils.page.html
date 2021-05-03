@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="ilsAdmin">
+
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" class="btnMenu"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title class="tituloMenu">
+      {{ 'LOGIN.ini_session' | translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-align-items-center">
+  <canvas class="particulas"></canvas>
+
+  <div class="divLogo">
+    <img src="../../assets/imgs/log-ils.png" class="logoIls">
+  </div>
+
+  <form [formGroup]="loginUser">
+    <ion-item>
+      <ion-label position="floating">{{ 'LOGIN.usuario' | translate }}</ion-label>
+      <ion-input type="text" [(ngModel)]="dataA.user" formControlName="user"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ 'LOGIN.contra' | translate }}</ion-label>
+      <ion-input type="password" [(ngModel)]="dataA.password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-button class="btnLogueo" color="ilsAdmin" expand="block" [disabled]="!loginUser.valid"
+      (click)="enviarDatosAgente(loginUser.value)">
+      {{ 'LOGIN.ingresar' | translate }}
+    </ion-button>
+  </form>
+</ion-content>

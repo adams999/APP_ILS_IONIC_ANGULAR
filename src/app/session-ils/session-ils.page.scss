@@ -1,0 +1,61 @@
+.menu {
+  color: white;
+
+  .tituloMenu {
+    text-align: center;
+    font-weight: bold;
+  }
+  .btnMenu {
+    color: white;
+  }
+}
+
+.refresher {
+  background: var(--fondo-bug);
+}
+
+.logIls {
+  text-align: center;
+  align-content: center;
+  width: 30%;
+  margin-left: 30%;
+  padding: 3%;
+}
+
+.footer {
+  padding-top: -15%;
+  text-align: center;
+  background: white;
+}
+
+.BtnCerrarSssion {
+  color: white;
+}
+
+.spinner {
+  text-align: center;
+}
+
+.iconInf {
+  color: #0e1575;
+}
+
+.divPiePag {
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  position: absolute; /*El div será ubicado con relación a la pantalla*/
+  left: 0px; /*A la derecha deje un espacio de 0px*/
+  right: 0px; /*A la izquierda deje un espacio de 0px*/
+  bottom: 0px; /*Abajo deje un espacio de 0px*/
+  height: 20px; /*alto del div*/
+  z-index: 0;
+
+  .itemPiePag {
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    color: gray;
+    background: white;
+  }
+}

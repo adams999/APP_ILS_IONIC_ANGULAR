@@ -1,0 +1,240 @@
+<ion-header>
+  <ion-toolbar color="ilsAdmin">
+
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title class="tituloMenu">
+      <img item-left src="../../assets/imgs/log-ils.png" class="logoIls">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="arribaRefresh($event)" class="refresher">
+    <ion-refresher-content pullingIcon="arrow-down" refreshingSpinner="dots">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div>
+    <ion-item color="ilsAdmin">
+      <ion-label class="tituloLabel">
+        {{ 'HOME.tipo_cliente' | translate }}
+      </ion-label>
+      <ion-select placeholder="{{ 'HOME.tipo_cliente' | translate }}" value="all" [(ngModel)]="typeClient"
+        cancelText="{{ 'HOME.cancelar' | translate }}" okText="{{ 'HOME.aceptar' | translate }}"
+        (ngModelChange)="funcTypeClient(typeClient)">
+        <ion-select-option value="all">{{ 'HOME.todo' | translate }}</ion-select-option>
+        <ion-select-option value="1">{{ 'HOME.plataforma' | translate }}</ion-select-option>
+        <ion-select-option value="2">{{ 'HOME.solo_webservice' | translate }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event,false,aaaa)" [(ngModel)]="page" color="tertiary">
+      <ion-segment-button value="GraficaGeneralCliente" checked value="0" (click)="selectedTab(0)">
+        <ion-icon name="stats-chart" color="tertiary"></ion-icon>
+        <ion-label color="tertiary"> {{ 'HOME.clientes' | translate }} </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="GraficaGeneralTotales" value="1" (click)="selectedTab(1)">
+        <ion-icon name="stats-chart" color="tertiary"></ion-icon>
+        <ion-label color="tertiary">{{ 'HOME.general_totales' | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-slides #slider (ionSlideWillChange)="moveButton()" [options]="slidesOptions">
+    <ion-slide class="sliding">
+
+      <div class="divSliding">
+        <h5 class="titulo" color="ilsAdmin"> {{ 'HOME.graficas_generales' | translate }} {{ yearActual }}</h5>
+
+        <ion-item id="hGrafDay" (click)="hiddenGraficaDay(true)">
+          <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafDay')">
+            {{ 'HOME.rpt_ventas_diarias' | translate }}
+          </ion-label>
+          <ion-icon name="caret-down" *ngIf="hGrafDay==false" slot="end" (click)="scrollAGrafica('','hGrafDay')">
+          </ion-icon>
+          <ion-icon name="caret-up" *ngIf="hGrafDay==true" slot="end" (click)="scrollAGrafica('','hGrafDay')">
+          </ion-icon>
+        </ion-item>
+        <div class="divColumnDrillDown" [hidden]="!hGrafDay">
+          <p [hidden]="!noResult" class="pNoResult">{{ 'HOME.sin_ventas' | translate }}</p>
+          <div id="columnDrillDown" class="columnDrillDown" [hidden]="noResult"></div>
+        </div>
+
+        <ion-item id="hGrafVentGen" (click)="hiddenGraficaVentGen(true)">
+          <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafVentGen')">
+            {{ this.yearActual }} {{ 'HOME.vouchers' | translate }}
+          </ion-label>
+          <ion-icon name="caret-down" *ngIf="hGrafVentGen==false" slot="end"
+            (click)="scrollAGrafica('','hGrafVentGen')"></ion-icon>
+          <ion-icon name="caret-up" *ngIf="hGrafVentGen==true" slot="end" (click)="scrollAGrafica('','hGrafVentGen')">
+          </ion-icon>
+        </ion-item>
+        <div class="divCantVentAnual" [hidden]="!hGrafVentGen">
+          <div id="cantVentAnual" class="cantVentAnual"></div>
+        </div>
+
+        <ion-item id="hGrafVentGenSales" (click)="hiddenGraficaVentGenSales(true)">
+          <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafVentGenSales')">
+            {{ this.yearActual }} {{ 'HOME.neto' | translate }}
+          </ion-label>
+          <ion-icon name="caret-down" *ngIf="hGrafVentGenSales==false" slot="end"
+            (click)="scrollAGrafica('','hGrafVentGenSales')"></ion-icon>
+          <ion-icon name="caret-up" *ngIf="hGrafVentGenSales==true" slot="end"
+            (click)="scrollAGrafica('','hGrafVentGenSales')"></ion-icon>
+        </ion-item>
+        <div class="divCantVentAnualSales" [hidden]="!hGrafVentGenSales">
+          <div id="cantVentAnualSalesGen" class="cantVentAnualSales"></div>
+        </div>
+      </div>
+
+    </ion-slide>
+
+    <ion-slide class="sliding1">
+      <div class="divSliding1">
+
+        <ion-item class="fechas ion-align-items-center">
+          <ion-label position="floating" [ngStyle]="{'color': '#0e1575'}">{{ 'HOME.select_year' | translate }}
+          </ion-label>
+          <ion-datetime cancelText="{{ 'HOME.cancelar' | translate }}" doneText="{{ 'HOME.siguiente' | translate }}"
+            displayFormat="YYYY" pickerFormat="YYYY" [(ngModel)]="aaaa" min="{{ 2018 }}"></ion-datetime>
+        </ion-item>
+
+        <ion-item class="fechas ion-align-items-center" *ngIf="aaaa">
+          <ion-label [ngStyle]="{'color': '#0e1575'}">{{ 'HOME.label_select_mess' | translate}}
+            <p *ngIf="mm == 'ALL'"> {{ 'HOME.todo_el_year' | translate }} </p>
+            <p *ngIf="mm == '01'">{{ 'MESES.01' | translate }}</p>
+            <p *ngIf="mm == '02'">{{ 'MESES.02' | translate }}</p>
+            <p *ngIf="mm == '03'">{{ 'MESES.03' | translate }}</p>
+            <p *ngIf="mm == '04'">{{ 'MESES.04' | translate }}</p>
+            <p *ngIf="mm == '05'">{{ 'MESES.05' | translate }}</p>
+            <p *ngIf="mm == '06'">{{ 'MESES.06' | translate }}</p>
+            <p *ngIf="mm == '07'">{{ 'MESES.07' | translate }}</p>
+            <p *ngIf="mm == '08'">{{ 'MESES.08' | translate }}</p>
+            <p *ngIf="mm == '09'">{{ 'MESES.09' | translate }}</p>
+            <p *ngIf="mm == '10'">{{ 'MESES.10' | translate }}</p>
+            <p *ngIf="mm == '11'">{{ 'MESES.11' | translate }}</p>
+            <p *ngIf="mm == '12'">{{ 'MESES.12' | translate }}</p>
+          </ion-label>
+          <ion-button (click)="meses()" size="small"> {{ 'HOME.seleccionar' | translate}} </ion-button>
+
+          <!-- <ion-datetime (ionChange)="changeFecha('',endDate)"
+            monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+            cancelText="Atras" doneText="Ok" displayFormat="MMMM" pickerFormat="MMMM" [(ngModel)]="endDate"
+            min="{{ 2017 }}" ></ion-datetime> -->
+        </ion-item>
+
+        <div class="btnBuscar">
+          <ion-button *ngIf="aaaa && mm" color="success" (click)="buscar($event,true,aaaa)" size="small">
+            {{ 'HOME.buscar' | translate }} <ion-icon name="search"></ion-icon>
+          </ion-button>
+        </div>
+
+        <h6 class="resultBusq" *ngIf="resultBusq == false">{{ 'HOME.not_result' | translate}} </h6>
+
+        <div [hidden]="!resultBusq">
+          <!--div para ocultar graficas cuando no hay resultados -->
+          <h5 class="titulo2" *ngIf="btnBuscar == false">{{ 'HOME.resultados_del' | translate }} {{ yearActual }} </h5>
+
+          <ion-item id="hGrafVentVouchAct" (click)="hiddenGraficaVouchAct(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafVentVouchAct')">
+              {{ 'HOME.status_ordenes' | translate }}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafVentVouchAct==false" slot="end"
+              (click)="scrollAGrafica('','hGrafVentVouchAct')"></ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafVentVouchAct==true" slot="end"
+              (click)="scrollAGrafica('','hGrafVentVouchAct')"></ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafVentVouchAct">
+            <div id="VouchAct" class="vouchAct"></div>
+          </div>
+
+          <ion-item id="hGrafVentVouchActNet" (click)="hiddenGraficaVouchActNet(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafVentVouchActNet')">
+              {{ 'HOME.ord_act_net_vent' | translate }}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafVentVouchActNet==false" slot="end"
+              (click)="scrollAGrafica('','hGrafVentVouchActNet')"></ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafVentVouchActNet==true" slot="end"
+              (click)="scrollAGrafica('','hGrafVentVouchActNet')"></ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafVentVouchActNet">
+            <div id="VouchActNet" class="vouchActNet"></div>
+          </div>
+
+          <ion-item id="hGrafOrigen" (click)="hiddenGraficaOrigen(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafOrigen')">
+              {{ 'HOME.orig_viaje' | translate }}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafOrigen==false" slot="end"
+              (click)="scrollAGrafica('','hGrafOrigen')"></ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafOrigen==true" slot="end" (click)="scrollAGrafica('','hGrafOrigen')">
+            </ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafOrigen">
+            <div id="origen" class="origen"></div>
+          </div>
+
+          <ion-item id="hGrafCantVent" (click)="hiddenGraficaCantVent(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafCantVent')">
+              {{ 'HOME.cant_ventas' | translate }}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafCantVent==false" slot="end"
+              (click)="scrollAGrafica('','hGrafCantVent')"></ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafCantVent==true" slot="end"
+              (click)="scrollAGrafica('','hGrafCantVent')"></ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafCantVent">
+            <div id="cantVent" class="cantVent"></div>
+          </div>
+
+          <ion-item id="hGrafCantVentNet" (click)="hiddenGraficaCantVentNet(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafCantVentNet')">
+              {{ 'HOME.neto_ventas' | translate}}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafCantVentNet==false" slot="end"
+              (click)="scrollAGrafica('','hGrafCantVentNet')"></ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafCantVentNet==true" slot="end"
+              (click)="scrollAGrafica('','hGrafCantVentNet')"></ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafCantVentNet">
+            <div id="cantVentNet" class="cantVentNet"></div>
+          </div>
+
+          <ion-item id="hGrafDistEdad" (click)="hiddenGraficaDistEdad(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafDistEdad')">
+              {{ 'HOME.distr_edad' | translate }}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafDistEdad==false" slot="end"
+              (click)="scrollAGrafica('','hGrafDistEdad')"></ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafDistEdad==true" slot="end"
+              (click)="scrollAGrafica('','hGrafDistEdad')"></ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafDistEdad">
+            <div id="distEdad" class="distEdad"></div>
+          </div>
+
+          <ion-item id="hGrafYears" (click)="hiddenGraficaYears(true)" class="itemVoucAct">
+            <ion-label class="tituloLabel" (click)="scrollAGrafica('','hGrafYears')">
+              {{ 'HOME.year_ant_act' | translate }}
+            </ion-label>
+            <ion-icon name="caret-down" *ngIf="hGrafYears==false" slot="end" (click)="scrollAGrafica('','hGrafYears')">
+            </ion-icon>
+            <ion-icon name="caret-up" *ngIf="hGrafYears==true" slot="end" (click)="scrollAGrafica('','hGrafYears')">
+            </ion-icon>
+          </ion-item>
+          <div [hidden]="!hGrafYears">
+            <div id="years" class="years"></div>
+          </div>
+
+        </div>
+      </div>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

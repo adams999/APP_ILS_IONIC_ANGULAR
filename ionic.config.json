@@ -1,0 +1,8 @@
+{
+  "name": "ILS",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

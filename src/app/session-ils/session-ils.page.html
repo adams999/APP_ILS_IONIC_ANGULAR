@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar class="menu" color="ilsAdmin">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" class="btnMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="tituloMenu">
+      {{ 'SESSION_ILS.session_ils' | translate }}
+      <ion-icon name="person-circle" [ngStyle]="{'color': 'whith'}"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="arribaRefresh($event)" class="refresher">
+    <ion-refresher-content pullingIcon="arrow-down" refreshingSpinner="dots"></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item class="ionLogoIls ion-align-items-center">
+      <img src="../../assets/imgs/log-ils.png" class="logIls">
+    </ion-item>
+
+    <p *ngIf="!datosAgente" class="spinner">
+      <ion-spinner name="crescent"></ion-spinner>
+    </p>
+
+    <ion-item *ngIf="datosAgente">
+      <ion-label class="ion-text-wrap">
+        <p *ngIf="datosAgente[1] && datosAgente[1].NAME"> <b>{{ 'SESSION_ILS.plataforma' | translate }} </b>
+          {{ datosAgente[1].NAME }} </p>
+        <p *ngIf="datosAgente[0] && datosAgente[0].parameter_value"> <b>{{ 'SESSION_ILS.correo' | translate }}</b>
+          {{ datosAgente[0].parameter_value }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].address_parameter" class="direccionTitulo">
+          <b>{{ 'SESSION_ILS.direccion' | translate }}</b>
+          <ion-text class="direccionTexto">
+            {{ datosAgente[1].address_parameter }}</ion-text>
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone1.length > 7"> <b>{{ 'SESSION_ILS.telefono' | translate }}
+          </b> {{ datosAgente[1].phone1 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone2.length > 7"> <b>{{ 'SESSION_ILS.telefono' | translate }}
+          </b> {{ datosAgente[1].phone2 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone3.length > 7"> <b>{{ 'SESSION_ILS.telefono' | translate }}
+          </b> {{ datosAgente[1].phone3 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone4.length > 7"> <b>{{ 'SESSION_ILS.telefono' | translate }}
+          </b> {{ datosAgente[1].phone4 }}
+        </p>
+        <p *ngIf="paisAgencia != 'XX'"> <b>{{ 'SESSION_ILS.pais' | translate }}</b> {{ paisAgencia }} </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].id_state"> <b>{{ 'SESSION_ILS.estado' | translate }}</b>
+          {{ datosAgente[1].id_state }} </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].id_city"> <b>{{ 'SESSION_ILS.ciudad' | translate }}</b>
+          {{ datosAgente[1].id_city }} </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].zip_code"> <b>{{ 'SESSION_ILS.codigo_postal' | translate }}</b>
+          {{ datosAgente[1].zip_code }} </p>
+        <p> <b>{{ 'SESSION_ILS.web' | translate }}</b> <a
+            (click)="navegadorSitioAgencia('https://www.ilsadmin.com',$event)"> https://www.ilsadmin.com
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="infUser">
+      <ion-label class="ion-text-wrap">
+        <p *ngIf="infUser.id"> <b>{{ 'SESSION_ILS.id_usuario' | translate }}</b> {{ infUser.id }} </p>
+        <p *ngIf="infUser.firstname"> <b>{{ 'SESSION_ILS.nombre' | translate }}</b> {{ infUser.firstname }} </p>
+        <p *ngIf="infUser.lastname"> <b>{{ 'SESSION_ILS.apellido' | translate }}</b> {{ infUser.lastname }} </p>
+        <p *ngIf="infUser.email"> <b>{{ 'SESSION_ILS.email' | translate }}</b> {{ infUser.email }} </p>
+        <p *ngIf="infUser.phone"> <b>{{ 'SESSION_ILS.telefono' | translate }}</b> <i *ngIf="infUser.cod_pais">
+            {{ infUser.cod_pais }} </i>
+          {{ infUser.phone }} </p>
+        <p *ngIf="infUser.user_type"> <b>{{ 'SESSION_ILS.tipo_usuario' | translate }}</b> {{ infUser.user_type }} </p>
+        <p *ngIf="infUser.id_country"> <b>{{ 'SESSION_ILS.pais' | translate }}</b> {{ infUser.id_country }} </p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer class="footer">
+  <ion-toolbar (click)="borrarAlmacenamiento()" color="ilsAdmin" class="BtnCerrarSssion" fill="clear">
+    {{ 'SESSION_ILS.cerrar_sesion' | translate }}
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,110 @@
+<ion-app>
+  <ion-router-outlet></ion-router-outlet>
+  <ion-menu contentId="content1" side="start" class="menu">
+    <ion-header>
+      <ion-toolbar [ngStyle]="{'background': 'white','border-color': color}" class="toolbarMenu">
+        <ion-title class="titleMenu">
+          <img src="assets/imgs/log-ils.png" class="imgMenu"><br>
+          <ion-icon class="iconTitleMenu" color="ilsAdmin" name="menu"></ion-icon>
+          <a class="pMenu" [ngStyle]="{'color': '#2b3643'}"> {{ 'COMPONENT.menu' | translate }} </a>
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="contentMenu" color="ilsMenu">
+
+      <ion-item *ngFor="let p of pages" (click)="openPage(p.path, p.title)" class="itemMenu">
+        <ion-label color="ilsAdmin" class="labelMenu">
+          <ion-button fill="clear" size="large" expand="full" class="btnMenu" class="bTitle">
+            <b [ngStyle]="{'color': 'white'}">{{ 'ROUTING.'+p.title | translate}}</b> &nbsp;
+            <ion-icon [ngStyle]="{'color': 'white'}" class="iconMenuLog" name="{{p.icon}}"></ion-icon>
+          </ion-button>
+        </ion-label>
+      </ion-item>
+
+      <!-- <p class="version" [ngStyle]="{'color': 'white'}">Version: {{versionAppA}} </p> -->
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="content1" main></ion-router-outlet>
+
+  <!-- cuando esta loguado -->
+  <ion-menu contentId="content1" side="start" *ngIf="userType">
+
+    <ion-toolbar [ngStyle]="{'background': 'white','border-color': 'white'}" class="toolbarMenuLog">
+      <ion-title class="titleMenuLog">
+        <ion-spinner *ngIf="loadLogo == false" class="spinnerImgLoad"></ion-spinner>
+        <img src="assets/imgs/log-ils.png" class="imgMenu" (load)="loadlogo($event)"><br>
+        <br>
+        <ion-icon class="iconTitleMenuLog" color="ilsAdmin" name="menu">
+        </ion-icon>
+        <a class="pMenuLog" [ngStyle]="{'color': '#2b3643'}"> {{ 'COMPONENT.menu' | translate }} </a>
+      </ion-title>
+    </ion-toolbar>
+
+    <ion-content class="contentMenuLog" color="ilsMenu">
+
+      <ion-item class="itemListLog">
+        <ion-label color="ilsAdmin" class="labelItemListLog">
+          <ion-button (click)="paginaMaster('home')" fill="clear" size="large" expand="full" class="bTitle">
+            <b [ngStyle]="{'color': 'white'}"> {{ 'COMPONENT.inicio' | translate }}</b> &nbsp;
+            <ion-icon [ngStyle]="{'color': 'white'}" class="iconMenuLog" name="home"></ion-icon>
+          </ion-button>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngFor="let client of clientes, let i = index" class="itemListLog" id='{{i}}'>
+        <ion-avatar (click)="hiddenMenuToggleMostrar(client,i)" (click)="scrollAMenu('',i)"
+          class="avatar ion-align-self-start">
+          <ion-spinner *ngIf="spinnerImg[i] == false" class="spinnerImg"></ion-spinner>
+          <img class="imgAvatar" [src]="client.logo_agencia" (load)="cargaDeImg($event, i)">
+        </ion-avatar>
+        <ion-label [ngStyle]="{'color': 'white'}" class="labelItemListLog" (click)="hiddenMenuToggleMostrar(client,i)">
+          <ion-button (click)="scrollAMenu('',i)" fill="clear" size="large" expand="full" class="bTitle">
+            <b class="ion-text-wrap" [ngStyle]="{'color': 'white'}">{{client.client}}</b>
+          </ion-button>
+          <div *ngIf="menuHidden[i]==true">
+            <div *ngFor="let p of pages" (click)="[openCliente(client, p.path, false), openPage(p.path, p.title)]">
+              <ion-item class="itemListLog" *ngIf="client.prefix != 'RC' || p.path !='cotizador'">
+                <ion-label color="ilsAdmin" class="labelItemListLog">
+                  <ion-button fill="clear" size="large" expand="full" class="bTitle">
+                    <b [ngStyle]="{'color': 'white'}">{{ 'ROUTING.'+p.title | translate}}</b> &nbsp;
+                    <ion-icon [ngStyle]="{'color': 'white'}" class="iconMenuLog" name="{{p.icon}}"></ion-icon>
+                  </ion-button>
+                </ion-label>
+              </ion-item>
+            </div>
+
+          </div>
+        </ion-label>
+        <ion-icon [ngStyle]="{'color': 'white'}" name="caret-down" *ngIf="menuHidden[i]==false" slot="end"
+          (click)="hiddenMenuToggleMostrar(client,i)" class="iconToggle"
+          class="iconMenuHidden ion-align-self-start ion-align-items-center" (click)="scrollAMenu('',i)">
+        </ion-icon>
+        <ion-icon [ngStyle]="{'color': 'white'}" name="caret-up" *ngIf="menuHidden[i]==true" slot="end"
+          (click)="hiddenMenuToggleocultar(client,i)" class="iconToggle"
+          class="iconMenuHidden ion-align-self-start ion-align-items-center"></ion-icon>
+        <br>
+      </ion-item>
+
+      <ion-item class="itemListLog">
+        <ion-label color="ilsAdmin" class="labelItemListLog">
+          <ion-button (click)="paginaMaster('config',true)" fill="clear" size="large" expand="full" class="bTitle">
+            <b [ngStyle]="{'color': 'white'}">{{ 'COMPONENT.configuracion' | translate }}</b> &nbsp;
+            <ion-icon [ngStyle]="{'color': 'white'}" class="iconMenuLog" name="options"></ion-icon>
+          </ion-button>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="itemListLog">
+        <ion-label color="ilsAdmin" class="labelItemListLog">
+          <ion-button (click)="paginaMaster('session-ils',true)" fill="clear" size="large" expand="full" class="bTitle">
+            <b [ngStyle]="{'color': 'white'}">{{ 'COMPONENT.session_ils' | translate }}</b> &nbsp;
+            <ion-icon [ngStyle]="{'color': 'white'}" class="iconMenuLog" name="person-circle"></ion-icon>
+          </ion-button>
+        </ion-label>
+      </ion-item>
+
+    </ion-content>
+
+  </ion-menu>
+</ion-app>

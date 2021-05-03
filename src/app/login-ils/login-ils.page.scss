@@ -1,0 +1,55 @@
+//estilos de particulas
+ion-content {
+  margin: 0;
+  padding: 0;
+}
+
+.particulas {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  height: 150% !important;
+  width: 150% !important;
+}
+
+.divLogo {
+  margin-top: 10%;
+  text-align: center;
+}
+
+.logoIls {
+  width: 60%;
+  text-align: center;
+  align-items: baseline;
+  position: relative;
+}
+
+.btnMenu {
+  color: white;
+}
+
+.tituloMenu {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+
+.titulo {
+  text-align: center;
+  color: #0e1575;
+}
+
+.footer {
+  padding-top: -15%;
+  text-align: center;
+}
+
+.btnLogueo {
+  position: relative;
+}
+
+.BtnCerrarSssion {
+  color: white;
+}

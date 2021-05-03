@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar *ngIf="COLOR_MENU_BACKEND && pref" [ngStyle]="{'background': COLOR_MENU_BACKEND}" class="menuContacto">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" class="btnMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="tituloMenu">
+      {{ titulo | uppercase }} <ion-icon name="finger-print"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="!COLOR_MENU_BACKEND || !pref" color="ilsAdmin">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="tituloMenu">
+      {{ 'CONTACTO.informacion' | translate | uppercase }} <ion-icon name="finger-print"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="arribaRefresh($event)" class="refresher">
+    <ion-refresher-content pullingIcon="arrow-down" refreshingSpinner="dots"></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item *ngIf="datosAgente && !userType " class="ionLogoIls ion-align-items-center">
+    <img src="../../assets/imgs/log-ils.png" class="logIls">
+  </ion-item>
+
+  <p *ngIf="!datosAgente" class="spinner">
+    <ion-spinner name="crescent"></ion-spinner>
+  </p>
+
+  <ion-list *ngIf="datosAgente && !userType ">
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <p *ngIf="datosAgente[1] && datosAgente[1].NAME"> <b>{{ 'CONTACTO.plataforma' | translate }}:</b>
+          {{ datosAgente[1].NAME }} </p>
+        <p *ngIf="datosAgente[0] && datosAgente[0].parameter_value"> <b>{{ 'CONTACTO.correo' | translate }}</b>
+          {{ datosAgente[0].parameter_value }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].address_parameter" class="direccionTitulo">
+          <b>{{ 'CONTACTO.direccion' | translate }}</b>
+          <ion-text *ngIf="datosAgente[1] && datosAgente[1].address_parameter" class="direccionTexto">
+            {{ datosAgente[1].address_parameter }}</ion-text>
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone1.length > 7"> <b>{{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[1].phone1 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone2.length > 7"> <b>{{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[1].phone2 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone3.length > 7"> <b>{{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[1].phone3 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].phone4.length > 7"> <b>{{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[1].phone4 }}
+        </p>
+        <p *ngIf="paisAgencia != 'XX'"> <b>{{ 'CONTACTO.pais' | translate }}</b> {{ paisAgencia }} </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].id_state"> <b>{{ 'CONTACTO.estado' | translate }}</b>
+          {{ datosAgente[1].id_state }} </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].id_city"> <b>{{ 'CONTACTO.ciudad' | translate }}</b>
+          {{ datosAgente[1].id_city }} </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].zip_code"> <b>{{ 'CONTACTO.codigo_postal' | translate }}</b>
+          {{ datosAgente[1].zip_code }} </p>
+        <p>
+          <b>{{ 'CONTACTO.web' | translate }}</b> <a (click)="navegadorSitioAgencia('https://www.ilsadmin.com',$event)">
+            https://www.ilsadmin.com
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list *ngIf="datosAgente && userType">
+
+    <ion-item *ngIf="userType" [ngStyle]="{'color': COLOR_MENU_BACKEND}">
+      <img [src]="logo" class="imgAgencia">
+      &nbsp;{{nomClient}}
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <p *ngIf="datosAgente[2] && datosAgente[2].NAME"> <b>{{ 'CONTACTO.plataforma' | translate }}</b>
+          {{ datosAgente[2].NAME }} </p>
+        <p *ngIf="datosAgente[0] && datosAgente[0].parameter_value"> <b>{{ 'CONTACTO.correo' | translate }}</b>
+          {{ datosAgente[0].parameter_value }}
+        </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].address_parameter" class="direccionTitulo">
+          <b>{{ 'CONTACTO.direccion' | translate }}</b> </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].address_parameter" class="direccionTexto">
+          {{ datosAgente[2].address_parameter }}</p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].phone1.length > 7"> <b> {{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[2].phone1 }}
+        </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].phone2.length > 7"> <b> {{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[2].phone2 }}
+        </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].phone3.length > 7"> <b> {{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[2].phone3 }}
+        </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].phone4.length > 7"> <b> {{ 'CONTACTO.telefono' | translate }}</b>
+          {{ datosAgente[2].phone4 }}
+        </p>
+        <p *ngIf="datosAgente[1] && datosAgente[1].parameter_value.length > 7">
+          <ion-icon name="logo-whatsapp" [ngStyle]="{'color': COLOR_MENU_BACKEND}"></ion-icon>
+          {{ datosAgente[1].parameter_value }}
+          <ion-button *ngIf="whatsapp == true" href="https://wa.me/{{ datosAgente[1].parameter_value | slice}}"
+            size="small" fill="clear" [ngStyle]="{'background': COLOR_MENU_BACKEND}" class="btnPersonalizado">
+            {{ 'CONTACTO.envia_whats' | translate }}
+          </ion-button>
+        </p>
+        <p *ngIf="paisAgencia != 'XX'"> <b>{{ 'CONTACTO.pais' | translate }}</b> {{ paisAgencia }} </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].id_state"> <b>{{ 'CONTACTO.estado' | translate }}</b>
+          {{ datosAgente[2].id_state }} </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].id_city"> <b>{{ 'CONTACTO.ciudad' | translate }}</b>
+          {{ datosAgente[2].id_city }} </p>
+        <p *ngIf="datosAgente[2] && datosAgente[2].zip_code"> <b>{{ 'CONTACTO.codigo_postal' | translate }}</b>
+          {{ datosAgente[2].zip_code }} </p>
+        <p *ngIf="webAgencia"> <b>{{ 'CONTACTO.web' | translate }}</b>
+          <a (click)="navegadorSitioAgencia(webAgencia,$event)">
+            <ion-icon name="link" [ngStyle]="{'color': COLOR_MENU_BACKEND}"></ion-icon>{{ webAgencia }}
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer class="classFooter">
+  <ion-toolbar class="footerToolbar">
+    <ion-title class=footerTitle>{{ 'FOOTER.pwils' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-footer>

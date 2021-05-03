@@ -1,0 +1,174 @@
+.logoIls {
+  width: 20%;
+}
+
+.refresher {
+  background: var(--fondo-bug);
+}
+
+.tituloMenu {
+  text-align: center;
+}
+
+.titulo {
+  text-align: center;
+  color: #0e1575;
+  font-weight: bold;
+}
+
+.spinnerLoad {
+  align-content: center;
+  text-align: center;
+}
+
+.listButton {
+  margin-bottom: 0%;
+  padding-top: 7%;
+  padding-bottom: 7%;
+}
+
+.avatar {
+  text-align: center;
+  align-content: center;
+  align-items: center;
+}
+
+.spinnerImg {
+  position: absolute;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  padding-left: 11%;
+  padding-top: 11%;
+}
+
+.imgAvatar {
+  border: 1px solid #0e1575;
+}
+
+.pTituloAgente {
+  position: fixed;
+  margin: 0%;
+  padding-left: 18%;
+}
+
+.pError {
+  text-align: center;
+}
+.spinner {
+  display: block;
+  margin: auto;
+}
+
+.sliding {
+  .divSliding {
+    width: 100%;
+  }
+}
+
+.divColumnDrillDown {
+  //  margin-bottom: 15%;
+
+  .pNoResult {
+    align-content: center;
+    text-align: center;
+    color: #0e1575;
+    font-weight: bold;
+    font-size: 80%;
+  }
+
+  .columnDrillDown {
+    min-width: 50%;
+    max-width: 100%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.divCantVentAnual {
+  .cantVentAnual {
+    min-width: 50%;
+    max-width: 100%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.divCantVentAnualSales {
+  .cantVentAnualSales {
+    min-width: 50%;
+    max-width: 100%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    display: block;
+    margin: 0 auto;
+  }
+}
+//////////////////////////////pesta;a 2
+
+////////////////grafico de vouchers activos
+.sliding1 {
+  .divSliding1 {
+    width: 100%;
+  }
+}
+
+.titulo2 {
+  text-align: center;
+  color: #0e1575;
+  font-weight: bold;
+}
+
+.resultBusq {
+  //////////////color cuando no hay resultados
+  text-align: center;
+  color: #0e1575;
+  font-weight: bold;
+  margin-top: 40%;
+}
+
+.itemVoucAct {
+  display: block;
+  margin: 0%;
+  padding: 0%;
+
+  .tituloLabel {
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+  }
+}
+
+.vouchAct {
+  min-width: 50%;
+  max-width: 100%;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  align-self: center;
+  display: block;
+  margin: 0 auto;
+}
+
+///////////////////////grafico de vouchers netos activos
+
+.vouchAct {
+  min-width: 50%;
+  max-width: 100%;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  align-self: center;
+  display: block;
+  margin: 0 auto;
+}
